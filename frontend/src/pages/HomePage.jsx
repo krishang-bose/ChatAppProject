@@ -11,9 +11,8 @@ const HomePage = () => {
     // Fetch users when component mounts
     fetchUsers();
   }, [fetchUsers]);
-
   return (
-    <div className="flex h-screen bg-black text-white">
+    <div className="flex h-[calc(100vh-50px)] bg-black text-white ">
       <SideBar />
       {activeUser ? <ChatContainer /> : <NoChatContainer />}
     </div>
