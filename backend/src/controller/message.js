@@ -1,4 +1,5 @@
 import Message from "../models/message.js";
+import User from "../models/user.js";
 
 export const getUsers = async (req, res) => {
     try{
@@ -14,11 +15,10 @@ export const getMessages = async (req, res) => {
     try{
         const { id: recieverId } = req.params;
         const senderId = req.user._id;
-
         const messages = await Message.find({
             $or: [
-                { sender: senderId, reciever: recieverId },
-                { sender: recieverId, reciever: senderId }
+              { senderId: senderId, recieverId: recieverId },
+              { senderId: recieverId, recieverId: senderId }
             ]
         });
 
