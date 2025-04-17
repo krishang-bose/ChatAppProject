@@ -5,16 +5,15 @@ import ChatContainer from '../components/ChatContainer';
 import NoChatContainer from '../components/NoChatContainer';
 
 const HomePage = () => {
-  const { fetchUsers, activeUser } = useChatStore();
+  const { getUsers, selectedUser } = useChatStore();
 
   useEffect(() => {
-    // Fetch users when component mounts
-    fetchUsers();
-  }, [fetchUsers]);
+    getUsers();
+  }, []);
   return (
     <div className="flex h-[calc(100vh-50px)] bg-black text-white ">
       <SideBar />
-      {activeUser ? <ChatContainer /> : <NoChatContainer />}
+      { selectedUser? <ChatContainer /> : <NoChatContainer />}
     </div>
   );
 };

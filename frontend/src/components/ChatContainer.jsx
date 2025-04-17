@@ -8,11 +8,10 @@ const ChatContainer = () => {
 
   useEffect(() => {
     if (selectedUser?._id) {
-      getMessages(selectedUser._id);
+      console.log(getMessages(selectedUser._id));
     }
   }, [selectedUser, getMessages]);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -75,7 +74,7 @@ const ChatContainer = () => {
               {msg.text}
               {msg.image && <img src={msg.image} alt="message" className="mt-2 rounded-lg" />}
               <div className="text-xs text-gray-400 mt-1">
-                {msg.createdAt}
+                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </div>
           ))
