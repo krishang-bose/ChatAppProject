@@ -3,7 +3,7 @@ import User from "../models/user.js";
 
 export const getUsers = async (req, res) => {
     try{
-        const users = await User.find({ _id: { $ne: req.user._id } }).select("-password");
+        const users = await User.find().select("-password");
         res.status(200).json({users});
     }
     catch(error){
@@ -47,7 +47,7 @@ export const sendMessage = async (req, res) => {
             image: imageUrl
         });
         await newMessage.save();
-        res.status(201).json(newMessage);
+        res.status(201).json({ data: newMessage });
     }
     catch(error){
         console.log("Error at sendMessage controller", error);

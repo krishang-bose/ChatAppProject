@@ -1,77 +1,52 @@
-import { create } from 'zustand';
-
-// Sample data - replace with real API calls in a production app
-const sampleUsers = [
-  {
-    id: 1,
-    name: 'John Doe',
-    lastMessage: 'Hey, how are you?',
-    messages: [
-      { sender: 'user', text: 'Hey, how are you?', timestamp: '10:30 AM' },
-      { sender: 'other', text: 'I\'m good, thanks! How about you?', timestamp: '10:32 AM' }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    lastMessage: 'Let\'s meet tomorrow',
-    messages: [
-      { sender: 'other', text: 'Can we meet tomorrow?', timestamp: '9:15 AM' },
-      { sender: 'user', text: 'Let\'s meet tomorrow', timestamp: '9:20 AM' }
-    ]
-  },
-  {
-    id: 3,
-    name: 'Alex Johnson',
-    lastMessage: 'The project is going well',
-    messages: [
-      { sender: 'user', text: 'How\'s the project going?', timestamp: 'Yesterday' },
-      { sender: 'other', text: 'The project is going well', timestamp: 'Yesterday' }
-    ]
-  }
-];
+import { create } from "zustand";
+import toast from "react-hot-toast";
+import { axiosInstance } from "../lib/axios";
 
 export const useChatStore = create((set, get) => ({
+  messages: [],
   users: [],
-  activeUser: null,
+  selectedUser: null,
   isUserLoading: false,
-  
-  fetchUsers: () => {
+  isMessagesLoading: false,
+
+  getUsers: async () => {
     set({ isUserLoading: true });
-    // Simulate API call
-    setTimeout(() => {
-      set({ 
-        users: sampleUsers,
-        isUserLoading: false
-      });
-    }, 1000);
+    try {
+      const res = await axiosInstance.get("/message/users");
+      set({ users: res.data.users });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An unexpected error occurred");
+    } finally {
+      set({ isUserLoading: false });
+    }
   },
-  
-  handleUserSelect: (user) => {
-    set({ activeUser: user });
+
+  getMessages: async (userId) => {
+    set({ isMessagesLoading: true });
+    try {
+      const res = await axiosInstance.get(`/message/${userId}`);
+      set({ messages: res.data });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An unexpected error occurred");
+    } finally {
+      set({ isMessagesLoading: false });
+    }
   },
-  
-  sendMessage: (text) => {
-    const { activeUser } = get();
-    if (!activeUser) return;
-    
-    const newMessage = {
-      sender: 'user',
-      text,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    
-    const updatedUser = {
-      ...activeUser,
-      lastMessage: text,
-      messages: [...(activeUser.messages || []), newMessage]
-    };
-    
-    set({
-      activeUser: updatedUser,
-      users: get().users.map(user => 
-        user.id === activeUser.id ? updatedUser : user
-      )
-    });
-  }
+
+  sendMessage: async (messageData) => {
+    const { selectedUser, messages } = get();
+    try {
+      const res = await axiosInstance.post(`/message/send/${selectedUser._id}`, messageData);
+      if (res && res.data) {
+        set({ messages: [...(Array.isArray(messages) ? messages : []), res.data] });
+      } else {
+        toast.error("Unexpected server response");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An unexpected error occurred");
+      console.log("Error in sendMessage:", error);
+    }
+  },
+
+  setSelectedUser: (selectedUser) => set({ selectedUser }),
 }));
