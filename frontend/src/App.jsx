@@ -25,7 +25,7 @@ function App() {
     <div>
        <NavBar />
       <Routes>
-        <Route path="/" element={authUser?<HomePage />: <Navigate to= "signup/"/>} />
+        <Route path="/" element={authUser?<HomePage />: <Navigate to= "login/"/>} />
         <Route path="/signup" element={!authUser? <SignupPage />: <Navigate to="/"/>} />
         <Route path="/login" element={!authUser? <LoginPage />: <Navigate to="/"/>} />
         <Route path="/profile" element={authUser?<ProfilePage />: <Navigate to="singup/"/>} />
