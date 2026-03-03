@@ -69,7 +69,7 @@ const SideBar = () => {
         {isUserLoading ? (
           <div style={{ padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[1, 2, 3].map(i => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 16px' }}>
+              <div key={i} className='flex items-center gap-12px padding-8px-16px'>
                 <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(147,51,234,0.15)', flexShrink: 0 }} className="animate-pulse" />
                 <div style={{ flex: 1 }}>
                   <div style={{ height: '12px', borderRadius: '6px', background: 'rgba(147,51,234,0.15)', marginBottom: '6px', width: '70%' }} className="animate-pulse" />

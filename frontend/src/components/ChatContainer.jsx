@@ -122,9 +122,8 @@ const ChatContainer = () => {
                 </div>
 
                 {/* Footer info (time + checkmarks) */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '5px', padding: '0 4px' }}>
+                <div className='flex items-center gap-5 mt-5 p-0 4px'>
                   <span style={{ fontSize: '10px', color: 'rgba(167,139,250,0.4)', fontWeight: 500 }}>{time}</span>
-                  {isMe && <CheckCheck size={12} color="#9333ea" style={{ opacity: 0.6 }} />}
                 </div>
               </div>
             );
