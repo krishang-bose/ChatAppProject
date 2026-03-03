@@ -38,6 +38,7 @@ export const useChatStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post(`/message/send/${selectedUser._id}`, messageData);
       if (res && res.data) {
+        // Backend returns the message object directly
         set({ messages: [...(Array.isArray(messages) ? messages : []), res.data] });
       } else {
         toast.error("Unexpected server response");

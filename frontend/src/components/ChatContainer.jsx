@@ -63,13 +63,12 @@ const ChatContainer = () => {
       <div className="p-4 overflow-y-auto flex-1 flex flex-col space-y-4">
         {messages && messages.length > 0 ? (
           messages.map((msg, index) => (
-            <div 
-              key={index} 
-              className={`max-w-xs md:max-w-md p-3 rounded-lg ${
-                msg.senderId !== selectedUser._id
-                  ? 'bg-purple-700 text-white ml-auto' 
-                  : 'bg-[#1a1a1a] text-white mr-auto'
-              }`}
+            <div
+              key={index}
+              className={`max-w-xs md:max-w-md p-3 rounded-lg ${msg.senderId !== selectedUser._id
+                ? 'bg-purple-700 text-white ml-auto'
+                : 'bg-[#1a1a1a] text-white mr-auto'
+                }`}
             >
               {msg.text}
               {msg.image && <img src={msg.image} alt="message" className="mt-2 rounded-lg" />}
@@ -87,16 +86,16 @@ const ChatContainer = () => {
       </div>
 
       {/* Message input */}
-      <form onSubmit={handleSendMessage} className="bg-black p-4 border-t border-purple-800 mt-auto">
+      <form onSubmit={handleSendMessage} className="bg-black p-4 border-t border-black mt-auto">
         <div className="flex">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type a message..." 
-            className="flex-1 bg-[#111] border border-purple-800 rounded-l-full px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+            placeholder="Type a message..."
+            className="flex-1 bg-[#111] border border-black rounded-l-full px-4 py-2 text-white focus:outline-none "
           />
-          <button 
+          <button
             type="submit"
             className="bg-purple-600 hover:bg-purple-500 text-white px-6 rounded-r-full transition duration-200"
           >
