@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
+import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set, get) => ({
   messages: [],
@@ -13,7 +14,9 @@ export const useChatStore = create((set, get) => ({
     set({ isUserLoading: true });
     try {
       const res = await axiosInstance.get("/message/users");
-      set({ users: res.data.users });
+      const onlineUserIds = useAuthStore.getState().onlineUser;
+      const onlineUsers = res.data.users.filter(u => onlineUserIds.includes(u._id));
+      set({ users: onlineUsers });
     } catch (error) {
       toast.error(error.response?.data?.message || "An unexpected error occurred");
     } finally {

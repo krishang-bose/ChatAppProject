@@ -7,6 +7,8 @@ import messageRoutes from "./routes/message.js";
 import cors from "cors";
 import {app, server} from "./lib/socket.js";
 
+dotenv.config();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
@@ -17,7 +19,6 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use("/api/message",messageRoutes);
 
-dotenv.config();
 const PORT = process.env.PORT;
 
 server.listen(PORT, () => {
