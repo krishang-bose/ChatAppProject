@@ -105,7 +105,7 @@ const SideBar = () => {
                     fontSize: '16px', fontWeight: 700, color: 'white',
                     boxShadow: isSelected ? '0 0 10px rgba(147,51,234,0.4)' : 'none',
                   }}>
-                    {user.fullName?.charAt(0)?.toUpperCase() || '?'}
+                    {user.profilePic ? <img src={user.profilePic} alt="" /> : user.fullName?.charAt(0)?.toUpperCase() || '?'}
                   </div>
                   {/* Online dot */}
                   <div style={{
